@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Student;
 use Illuminate\Http\Request;
+use App\Models\StudentClass;
 
 class StudentController extends Controller
 {
@@ -12,8 +13,10 @@ class StudentController extends Controller
      */
     public function index()
     {
+
         // $students = Student::all();
-        $students = Student::orderBy('created_at', 'desc')->get();
+        $students = Student::with('studentClass')->orderBy('updated_at', 'desc')->get();
+
         return view('admin.student.index', compact('students'));
     }
 
@@ -22,7 +25,8 @@ class StudentController extends Controller
      */
     public function create()
     {
-        return view('admin.student.create');
+        $classes = StudentClass::all();
+        return view('admin.student.create',compact('classes'));
     }
 
     /**
@@ -33,11 +37,13 @@ class StudentController extends Controller
         $request->validate([
             'name' => 'required',
             'address' => 'required',
+            'class' => 'required'
         ]);
 
         Student::create([
             'name'=> $request->name,
-            'address' => $request->address
+            'address' => $request->address,
+            'class_id' => $request->class
     ]);
 
         return redirect()->route('student.index');
@@ -67,11 +73,13 @@ class StudentController extends Controller
         $request->validate([
             'name' => 'required',
             'address' => 'required',
+            'class' => 'required'
         ]);
 
         $student->update([
             'name'=> $request->name,
-            'address' => $request->address
+            'address' => $request->address,
+            'class_id' => $request->class
     ]);
 
         return redirect()->route('student.index');

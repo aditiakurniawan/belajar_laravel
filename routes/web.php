@@ -28,7 +28,7 @@ Route::get('/contact',[pageController::class,'contact'])->name('contact');
 // Route::get('/admin/chart',[pageController::class,'chart']);
 // Route::get('/admin/table',[pageController::class,'table']);
 
-Route::prefix('admin')->name('admin.')->controller(adminController::class)->group(function(){
+Route::prefix('admin')->middleware('auth')->name('admin.')->controller(adminController::class)->group(function(){
     Route::get('/','index')->name('index');
     Route::get('/chart','chart')->name('chart');
     Route::get('/table','table')->name('table');
@@ -43,7 +43,12 @@ Route::prefix('admin')->name('admin.')->controller(adminController::class)->grou
 //     Route::delete('/{student}/destroy','destroy')->name('destroy');
 // });
 
-Route::resource('/students', StudentController::class)->except('show');
+Route::resource('/student', StudentController::class)->except('show')->middleware(['auth','role:admin']);
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/welcome',[PageController::class, 'welcome'])->name('welcome');
 
 
 

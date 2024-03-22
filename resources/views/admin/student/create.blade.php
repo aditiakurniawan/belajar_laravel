@@ -36,6 +36,17 @@
                         <div id="addressError" class="form-text">{{ $message }}</div>
                     @enderror
                 </div>
+                <div class="mb-3">
+                    <label for="class" class="form-label">Class</label>
+                    <select name="class" id="class" class="form-select">
+                        @foreach ($classes as $class)
+                            <option value="{{ $class->id }}">{{ $class->name }}</option>
+                        @endforeach
+                    </select>
+                    @error('class')
+                        <div id="classError" class="form-text">{{ $message }}</div>
+                    @enderror
+                </div>
                 <button type="submit" class="btn btn-primary">Submit</button>
             </form>
         </div>

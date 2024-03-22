@@ -21,6 +21,7 @@
                         <tr>
                             <th>Name</th>
                             <th>Address</th>
+                            <th>Class</th>
                             <th>Action</th>
                         </tr>
                     </thead>
@@ -29,6 +30,7 @@
                             <tr>
                                 <td>{{ $student->name }}</td>
                                 <td>{{ $student->address }}</td>
+                                <td>{{ $student->studentClass->name }}</td>
                                 <td>
                                     <form action="{{ route('student.destroy', $student->id) }}" method="post">
                                         @csrf
